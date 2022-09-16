@@ -1,9 +1,9 @@
 import React from 'react';
 
 
-const Message = ({text}) => {
+const Message = ({text, author}) => {
 
-    return <div>{text}</div>;
+    return <div>{author}:{text}</div>;
 };
 
 export default Message;
