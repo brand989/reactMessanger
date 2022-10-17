@@ -1,59 +1,56 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Message from './Message.jsx';
 
 
 
-class MessageList extends React.Component {
-
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            items: [{ id: 1, text: 'text3', author: "I\'m" }, { id: 2, text: 'text4', author: "Bot" }],
-            messageText: ''
-        };
-    }
+const MessageList = () => {
 
 
-    addMessage = (event) => {
-        const idMessage = this.state.items.length
-        this.setState({ items: [...this.state.items, { id: idMessage, text: this.state.messageText, author: "I\'m" }] })
-        this.setState({messageText: ''})
+    const [items, setItems] = useState([{ id: 1, text: 'text3', author: "I\'m" }, { id: 2, text: 'text4', author: "Bot" }]);
+    const [messageText, setMessageText] = useState();
+
+    const addMessage = (event) => {
+        const idMessage = items.length
+        setItems([...items, { id: idMessage, text: messageText, author: "I\'m" }])
+        setMessageText('')
 
 
     };
 
-    writeMessage = (event) => {
-        this.setState({ messageText: event.target.value })
-    }
+    const writeMessage = (event) => {
+        setMessageText(event.target.value)
+    };
 
-    componentDidUpdate(prevProps, prevState){
-        const lenghtItems = this.state.items.length
+    useEffect(() => {
+        const lenghtItems = items.length
 
-        if(lenghtItems != prevState.items.length && this.state.items[lenghtItems-1].author != "Bot" ){
-            const idMessage = this.state.items.length
+        if (items[lenghtItems - 1].author != "Bot") {
+            const idMessage = items.length
             setTimeout(
-            () => this.setState({ items: [...this.state.items, { id: idMessage, text: "я бот пока", author: "Bot" }] }), 1000
+                () => setItems([...items, { id: idMessage, text: "я бот пока", author: "Bot" }]), 1000
             )
         }
-        
-    }
+
+    }, [items])
 
 
-    render() {
 
-        return (
-            <div>
-                <ul>
-                    {this.state.items.map((item, index) => (
-                        <li key={index}><Message text={item.text} author={item.author} /></li>
-                    ))}
-                    <input type="text" id="mess" value={this.state.messageText} onChange={this.writeMessage} ></input>
-                    <button onClick={this.addMessage}>Ответить</button>
-                </ul>
+    return (
+        <div className='main'>
+            <div className='messages'>
+                {items.map((item, index) => (
+                    <div key={index}><Message text={item.text} author={item.author} /></div>
+                ))}
+
             </div>
-        )
-    }
+            <div className='sendmessage'>
+                <input type="text" id="mess" value={messageText} onChange={writeMessage} ></input>
+                <button onClick={addMessage}>Ответить</button>
+                </div>
+
+        </div>
+    )
+
 }
 
 export default MessageList;
