@@ -1,26 +1,30 @@
 import React, { useState, useEffect } from 'react';
-import Message from '../Message/Message.jsx';
 import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 
 
 
 const SendMessage = (props) => {
 
-    const [focus, setFocus] = useState(true);
+    const [message, setMessage] = useState('');
 
-    const sendMessage = () => {
-        console.log(focus)
-        setFocus(true)
-        props.addMessage()
-        
-    } 
+    const changeMessage = (event) =>{
+        setMessage(event.target.value)
+       
+    }
+
+    const sendMessage = (event) => {
+        event.preventDefault()
+        props.addMessage(message)
+        setMessage('')
+
+    }
 
     return (
-            <div className='sendmessage'>
-                <TextField id="standard-basic" label="Введите сообщение"    focused variant="standard" value={props.messageText} onChange={props.writeMessage}/>
-                <button onClick={sendMessage}>Ответить</button>
-            </div>
-
+            <form className='sendmessage' onSubmit={sendMessage} >
+                <TextField id="standard-basic" label="Введите сообщение"  inputRef={(input) => input?.focus()} variant="standard" value={message} onChange={changeMessage}/>
+                <Button type="submit" variant="contained">Отправить</Button>
+            </form>
     )
 
 }
