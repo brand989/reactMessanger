@@ -1,44 +1,44 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import MessageList from '../MessageList/MessageList';
 import SendMessage from '../SendMessage/SendMessage';
 import {useMatch} from "react-router-dom";
+import { useSelector, useDispatch } from 'react-redux'
+import { addMessage } from '../../store/messages/messageSlice'
 
 
+const Messanger = () => {
 
-const Messanger = (props) => {
 
-    const [items, setItems] = useState([{ id: 1, text: 'text3', author: "I\'m", Chatid: 1 }, { id: 2, text: 'text4', author: "robot", Chatid: 1 }]);
+    const messages = useSelector((state) => state.message.messageList)
+    const dispatch = useDispatch()
+
+
     const match = useMatch("/chats/:chatsId")
     const chatsId = match.params.chatsId
 
 
-    const addMessage = (message) => {
-        const idMessage = items.length
-        setItems([...items, { id: idMessage, text: message, author: "I\'m", Chatid: `${chatsId}` }])
+    const addMessages = (message) => {
+        dispatch(addMessage({message:message, chatsId: chatsId, author: "i am" }))
     };
 
+    
+ 
     useEffect(() => {
-        const lenghtItems = items.length
-        if (items[lenghtItems - 1].author != "robot") {
-            const idMessage = items.length
+        const lenghtItems = messages.length
+        if (messages[lenghtItems - 1].author != "robot") {
             setTimeout(
-                () => setItems([...items, { id: idMessage, text: "я бот пока", author: "robot", Chatid: `${chatsId}` }]), 1000
+                () => dispatch(addMessage({message:'я робот', chatsId: chatsId, author: "robot" })), 1000
             )
         }
-
-    }, [items])
+    }, [messages])
 
   
 
     return (
-
         <>
-            <MessageList messages={items} />
-            <SendMessage addMessage={addMessage} />
+            <MessageList messages={messages} />
+            <SendMessage addMessages={addMessages} />
         </>
-            
-      
-
     )
 
 }

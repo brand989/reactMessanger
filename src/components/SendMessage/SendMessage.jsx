@@ -15,7 +15,7 @@ const SendMessage = (props) => {
 
     const sendMessage = (event) => {
         event.preventDefault()
-        props.addMessage(message)
+        props.addMessages(message)
         setMessage('')
 
     }
