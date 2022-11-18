@@ -3,15 +3,14 @@ import MessageList from '../MessageList/MessageList';
 import SendMessage from '../SendMessage/SendMessage';
 import {useMatch} from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux'
-import { addMessage } from '../../store/messages/messageSlice'
+import { addMessage, writeBotMessage } from '../../store/messages/messageSlice'
 
 
 const Messanger = () => {
 
 
-    const messages = useSelector((state) => state.message.messageList)
+    const messages = useSelector((state) => state.messageAndChats.messege.messageList)
     const dispatch = useDispatch()
-
 
     const match = useMatch("/chats/:chatsId")
     const chatsId = match.params.chatsId
@@ -24,12 +23,13 @@ const Messanger = () => {
     
  
     useEffect(() => {
-        const lenghtItems = messages.length
-        if (messages[lenghtItems - 1].author != "robot") {
-            setTimeout(
-                () => dispatch(addMessage({message:'я робот', chatsId: chatsId, author: "robot" })), 1000
-            )
+        if(messages.length){
+            const lenghtItems = messages.length
+            if (messages[lenghtItems - 1].author != "robot") {
+            dispatch(writeBotMessage({chatsId, lenghtItems}))
+            }
         }
+        
     }, [messages])
 
   

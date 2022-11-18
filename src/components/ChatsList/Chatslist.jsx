@@ -14,14 +14,13 @@ import { deleteChatsMessage } from '../../store/messages/messageSlice'
 
 const ChatsList = () => {
 
-    const chats = useSelector((state) => state.chats.chatsList)
+    const chats = useSelector((state) => state.messageAndChats.chats.chatsList)
     const dispatch = useDispatch()
     
-
     const addChats = () => {
         const length = chats.length - 1 
-        const id = chats[length].id + 1
-        dispatch(addChat(id))
+        const id = chats.length ? chats[length].id + 1 : 1
+        dispatch(addChat(id)) 
     }
 
     const deleteChats = (id) => {

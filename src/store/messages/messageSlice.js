@@ -1,9 +1,27 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk, } from '@reduxjs/toolkit'
+
+
+
+export const writeBotMessage = createAsyncThunk(
+  'writeBotMessage',
+  async function({chatsId,lenghtItems},thunkApi){
+    const promise = await new Promise((resolve) => { setTimeout(() => {
+            const data = {id:lenghtItems, text:'я робот', Chatid: chatsId, author: "robot" }
+            resolve(data)
+            }, 1000
+          )
+          })  
+      return promise   
+  }
+)
+
 
 export const messageSlice = createSlice({
   name: 'message',
+
   initialState: {
-    messageList: [{ id: 1, text: 'text25', author: "I\'m", Chatid: 1 }, { id: 2, text: 'text47', author: "robot", Chatid: 1 }]
+    messageList: [],
+    err:false
   },
   reducers: {
     addMessage: (state, action) => {
@@ -14,6 +32,15 @@ export const messageSlice = createSlice({
         state.messageList = state.messageList.filter( item => item.Chatid != action.payload)
     },
 
+  },
+  extraReducers:{
+      [writeBotMessage.fulfilled]:(state,action)=>{
+        state.messageList = [...state.messageList, action.payload]
+      },
+
+      [writeBotMessage.rejected]:(state)=>{
+          state.err = true
+      }
   }
 })
 
