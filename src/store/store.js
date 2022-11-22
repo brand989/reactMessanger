@@ -9,7 +9,7 @@ import {combineReducers} from "redux";
 import { profileSlice } from './profile/profileSlice'
 import { messageSlice } from './messages/messageSlice'
 import { chatsSlice } from './chats/chatsSlice'
-
+import { newsSlice } from './news/newsSlice'
 
 
 const persistConfig = {
@@ -29,6 +29,7 @@ const persistedReducer = persistReducer(persistConfig, reducer);
 const store = configureStore({
 reducer: {
     profile: profileSlice.reducer,
+    news: newsSlice.reducer,
     messageAndChats: persistedReducer,
     devTools: process.env.NODE_ENV !== 'production',
     middleware: [thunk]

@@ -6,6 +6,7 @@ import Messanger from './Messenger/Messenger';
 import ErrorPage from './ErrorPage/ErrorPage';
 import Navigation from './Navigation/Navigation';
 import Profile from './Profile/Profile';
+import News from './News/News';
 
 import {createBrowserRouter,RouterProvider} from "react-router-dom";
 import { Provider } from "react-redux"
@@ -28,6 +29,10 @@ const App = () => {
               {
                 path: "profile",
                 element: <Profile />,
+              },
+              {
+                path: "news",
+                element: <News />,
               },
           ]
         },

@@ -21,6 +21,8 @@ const Navigation = (props) => {
             <Link to="/">Главная</Link>
             <div>---</div>
             <Link to="profile">Profile</Link>
+            <div>---</div>
+            <Link to="news">News</Link>
             <ChatsList chats={chats} />
             <Outlet /> 
             { location.pathname == '/' && <div>Выберите чат</div> }
